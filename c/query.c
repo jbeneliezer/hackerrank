@@ -6,48 +6,48 @@
 #define MAX_PARAGRAPHS 5
 
 char* kth_word_in_mth_sentence_of_nth_paragraph(char**** document, int k, int m, int n) {
-	    return *(*(*(document + n) + m) + k);
+	return *(*(*(document + n) + m) + k);
 }
 
 char** kth_sentence_in_mth_paragraph(char**** document, int k, int m) { 
-	    return *(*(document + m) + k);
+	return *(*(document + m) + k);
 }
 
 char*** kth_paragraph(char**** document, int k) {
-	    return *(document + k);
+	return *(document + k);
 }
 
 char**** get_document(char* text) {
-	    char**** d = (char****)malloc(sizeof(char***));
-	        char*** p = (char***)malloc(MAX_PARAGRAPHS * sizeof(char**));
-		    char** s = (char**)malloc(MAX_CHARACTERS * sizeof(char*));
-		        char* w = (char*)malloc(MAX_CHARACTERS * sizeof(char));
-			    w = text;
-			        s = &w;
-				    p = &s;
-				        d = &p;
-					    int i = -1, j = -1, k = -1;
+	char**** d = (char****)malloc(sizeof(char***));
+	char*** p = (char***)malloc(MAX_PARAGRAPHS * sizeof(char**));
+	char** s = (char**)malloc(MAX_CHARACTERS * sizeof(char*));
+	char* w = (char*)malloc(MAX_CHARACTERS * sizeof(char));
+	w = text;
+	s = &w;
+	p = &s;
+	d = &p;
+	int i = -1, j = -1, k = -1;
 
-					        *(*p) = strtok(text, "\n");
-						    while (**p != NULL) {
-							            printf("p: %s\n", **p);
-								            *(d + ++i) = p;
-									            *s = strtok(**p, ".");
-										            while (*s != NULL) {
-												                printf("s: %s\n", *s);
-														            *(p + ++j) = s;
-															                w = strtok(*s, " ");
-																	            while (w != NULL) {
-																			                    printf("w: %s\n", w);
-																					                    *(s + ++k) = w;
-																							                    w = strtok(NULL, " ");
-																									                }
-																		                *s = strtok(NULL, ".");
-																				        }
-											            **p = strtok(NULL, "\n");
-												        }
+	*(*p) = strtok(text, "\n");
+	while (**p != NULL) {
+		printf("p: %s\n", **p);
+		*(d + ++i) = p;
+		*s = strtok(**p, ".");
+		while (*s != NULL) {
+			printf("s: %s\n", *s);
+			*(p + ++j) = s;
+			w = strtok(*s, " ");
+			while (w != NULL) {
+				printf("w: %s\n", w);
+				*(s + ++k) = w;
+				w = strtok(NULL, " ");
+				*s = strtok(NULL, ".");
+				**p = strtok(NULL, "\n");
+			}
+		}
+	}
 
-						        return d;
+	return d;
 							    
 }
     
@@ -95,42 +95,33 @@ void print_paragraph(char*** paragraph) {
 					        }
 }
 
-int main() 
-{
-	    char* text = get_input_text();
-	        char**** document = get_document(text);
-/*
-		    int q;
-		        scanf("%d", &q);
+int main() {
+	char* text = get_input_text();
+	char**** document = get_document(text);
+	int q;
+	scanf("%d", &q);
 
-			    while (q--) {
-				            int type;
-					            scanf("%d", &type);
+	while (q--) {
+		int type;
+		scanf("%d", &type);
 
-						            if (type == 3){
-								                int k, m, n;
-										            scanf("%d %d %d", &k, &m, &n);
-											                char* word = kth_word_in_mth_sentence_of_nth_paragraph(document, k, m, n);
-													            print_word(word);
-														            }
-
-							            else if (type == 2){
-									                int k, m;
-											            scanf("%d %d", &k, &m);
-												                char** sentence = kth_sentence_in_mth_paragraph(document, k, m);
-														            print_sentence(sentence);
-															            }
-
-								            else{
-										                int k;
-												            scanf("%d", &k);
-													                char*** paragraph = kth_paragraph(document, k);
-															            print_paragraph(paragraph);
-																            }
-									            printf("\n");
-										        }     
-											*/
-											return 0;
-
-
+		if (type == 3){
+			int k, m, n;
+			scanf("%d %d %d", &k, &m, &n);
+			char* word = kth_word_in_mth_sentence_of_nth_paragraph(document, k, m, n);
+			print_word(word);
+		} else if (type == 2) {
+			int k, m;
+			scanf("%d %d", &k, &m);
+			char** sentence = kth_sentence_in_mth_paragraph(document, k, m);
+			print_sentence(sentence);
+		} else {
+			int k;
+			scanf("%d", &k);
+			char*** paragraph = kth_paragraph(document, k);
+			print_paragraph(paragraph);
+			printf("\n");
+		}     
+	}
+	return 0;
 }
