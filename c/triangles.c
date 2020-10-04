@@ -11,28 +11,18 @@ struct triangle
 
 typedef struct triangle triangle;
 
-void swap(triangle* a, triangle* b) {
-	triangle tmp = *a;
-	*a = *b;
-	*b = tmp;
-}
-
 double area(triangle* tr) {
-	double p = (tr->a + tr->b + tr->c) / 2;
+	double p = (tr->a + tr->b + tr->c) / 2.0;
 
 	return sqrt(p * (p - tr->a) * (p - tr->b) * (p - tr->c));
 }
 
-void sort_by_area(triangle* tr, int n) {
-	int i, j;
-	for (i = 0; i < n; ++i) {
-		for (j = 0; j < n; ++j) {
-			if (area((tr + j)) > area((tr + j + 1))) {
-				swap((tr + j), (tr + j + 1));
-			}
-		}
-	}
+int compare(const void* a, const void* b) {
+	return (area((triangle*) a) < area((triangle*) b)) ? -1: 1;
+}
 
+void sort_by_area(triangle* tr, int n) {
+	qsort(tr, n, sizeof(triangle), compare);
 }
 
 int main()
